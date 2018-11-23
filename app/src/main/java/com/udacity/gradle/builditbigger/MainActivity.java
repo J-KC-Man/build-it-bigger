@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.jman.javajokelib.JokeProvider;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,8 +40,14 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Step 1:
+    // Make the button display a toast showing
+    // a joke retrieved from your Java joke telling library.
     public void tellJoke(View view) {
-        Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
+        JokeProvider joker = new JokeProvider();
+
+        String joke = joker.getJoke();
+        Toast.makeText(this, joke, Toast.LENGTH_LONG).show();
     }
 
 
