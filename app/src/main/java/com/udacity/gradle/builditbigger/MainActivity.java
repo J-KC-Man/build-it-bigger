@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.jman.androidshowjokelib.ShowJokeActivity;
 import com.jman.javajokelib.JokeProvider;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IAsyncTaskCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, joke, Toast.LENGTH_LONG).show();
 
         //launchLibraryActivity(joke);
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
+
+        new EndpointsAsyncTask(this).execute(new Pair<Context, String>(this, "Manfred"));
     }
 
     public void launchLibraryActivity(String joke) {
@@ -63,4 +64,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onResultReceived(String result) {
+        Intent intent = new Intent(this, ShowJokeActivity.class);
+        intent.putExtra("GCEJoke", result);
+        startActivity(intent);
+    }
 }

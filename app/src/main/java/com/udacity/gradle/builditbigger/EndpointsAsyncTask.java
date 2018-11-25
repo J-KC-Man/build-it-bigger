@@ -1,5 +1,6 @@
 package com.udacity.gradle.builditbigger;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,8 +17,15 @@ import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
 import java.io.IOException;
 
 public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+
     private static MyApi myApiService = null;
     private Context context;
+
+    private IAsyncTaskCallback asyncTaskCallback;
+
+    public EndpointsAsyncTask(IAsyncTaskCallback asyncTaskCallback) {
+        this.asyncTaskCallback = asyncTaskCallback;
+    }
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
@@ -52,8 +60,17 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
     @Override
     protected void onPostExecute(String result) {
        // Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(context, ShowJokeActivity.class);
-        intent.putExtra("GCEJoke", result);
-        context.startActivity(intent);
+
+        //MainActivity.onResultReceived(result);
+       // onResultReceived(result);
+
+        asyncTaskCallback.onResultReceived(result);
+
+        // this needs moving to main actvity implementation of interface
+//        Intent intent = new Intent(context, ShowJokeActivity.class);
+//        intent.putExtra("GCEJoke", result);
+//        context.startActivity(intent);
     }
+
+
 }
