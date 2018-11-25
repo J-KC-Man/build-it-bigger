@@ -16,9 +16,17 @@ import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
 
 import java.io.IOException;
 
-public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
 
-    private static MyApi myApiService = null;
+    /*
+    * For future reference: we do not need default <Pair<Context, String>, Void, String> types like on the template
+    * @ https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/77e9910911d5412e5efede5fa681ec105a0f02ad/HelloEndpoints#2-connecting-your-android-app-to-the-backend
+    * because the value of the pair being displayed in place of "Manfred" is the joke from the java lib.
+    * We only need Context (the environment where the Async call is coming from)
+    * */
+    public class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
+
+
+        private static MyApi myApiService = null;
     private Context context;
 
     private IAsyncTaskCallback asyncTaskCallback;
@@ -28,7 +36,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
     }
 
     @Override
-    protected String doInBackground(Pair<Context, String>... params) {
+    protected String doInBackground(Context... params) {
         if(myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
@@ -47,8 +55,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
             myApiService = builder.build();
         }
 
-        context = params[0].first;
-        String name = params[0].second;
+        context = params[0];
 
         try {
             return myApiService.sayHi().execute().getData();
@@ -59,17 +66,14 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
 
     @Override
     protected void onPostExecute(String result) {
-       // Toast.makeText(context, result, Toast.LENGTH_LONG).show();
 
-        //MainActivity.onResultReceived(result);
-       // onResultReceived(result);
-
+        // asyncTaskCallback is the MainActivity object,
+        // since asyncTaskCallback was initialised with the MainActivity object.
+        // This is possible because MainActivity implemented the IAsyncTaskCallback
+        // interface, so it is the same type as asyncTaskCallback.
+        // this allows the de-coupling of code between the AsyncTask and the UI.
         asyncTaskCallback.onResultReceived(result);
 
-        // this needs moving to main actvity implementation of interface
-//        Intent intent = new Intent(context, ShowJokeActivity.class);
-//        intent.putExtra("GCEJoke", result);
-//        context.startActivity(intent);
     }
 
 

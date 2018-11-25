@@ -55,7 +55,17 @@ public class MainActivity extends AppCompatActivity implements IAsyncTaskCallbac
 
         //launchLibraryActivity(joke);
 
-        new EndpointsAsyncTask(this).execute(new Pair<Context, String>(this, "Manfred"));
+        // init asynctask object and make the MainActivity the callback calling object
+        //new EndpointsAsyncTask(this).execute(new Pair<Context, String>(this, "Manfred"));
+        // for future reference: we do not need default new Pair<Context, String>(this, "Manfred")
+
+        /*
+        * init asynctask object and make the MainActivity the callback calling object
+        * for future reference: We don't need the pair in the default call new EndpointsAsyncTask(this).execute(new Pair<Context, String>(this, "Manfred"));
+        * because the value being displayed in place of "Manfred" is the joke from the java lib.
+        * We only need Context (the environment where the Async call is coming from)
+        * */
+        new EndpointsAsyncTask(this).execute(this);
     }
 
     public void launchLibraryActivity(String joke) {
