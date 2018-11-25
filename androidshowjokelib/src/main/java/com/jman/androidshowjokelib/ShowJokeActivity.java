@@ -15,10 +15,11 @@ public class ShowJokeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_joke);
 
-        String jokeFromJavaLib = getIntent().getStringExtra("javaLibJoke");
+       // String jokeFromJavaLib = getIntent().getStringExtra("javaLibJoke");
+        String gceJokeFromJavaLib = getIntent().getStringExtra("GCEJoke");
         TextView textView = findViewById(R.id.joke_textview);
 
-        textView.setText(jokeFromJavaLib);
+        textView.setText(gceJokeFromJavaLib);
     }
 
 }
