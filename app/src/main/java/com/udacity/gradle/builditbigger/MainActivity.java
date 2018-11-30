@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.jman.androidshowjokelib.ShowJokeActivity;
-import com.jman.javajokelib.JokeProvider;
+//import com.jman.javajokelib.JokeProvider;
 
 public class MainActivity extends AppCompatActivity implements IAsyncTaskCallback {
 
@@ -48,12 +48,6 @@ public class MainActivity extends AppCompatActivity implements IAsyncTaskCallbac
     // Make the button display a toast showing
     // a joke retrieved from your Java joke telling library.
     public void tellJoke(View view) {
-        JokeProvider joker = new JokeProvider();
-
-        String joke = joker.getJoke();
-        Toast.makeText(this, joke, Toast.LENGTH_LONG).show();
-
-        //launchLibraryActivity(joke);
 
         // init asynctask object and make the MainActivity the callback calling object
         //new EndpointsAsyncTask(this).execute(new Pair<Context, String>(this, "Manfred"));
@@ -68,11 +62,6 @@ public class MainActivity extends AppCompatActivity implements IAsyncTaskCallbac
         new EndpointsAsyncTask(this).execute(this);
     }
 
-    public void launchLibraryActivity(String joke) {
-        Intent intent = new Intent(this, ShowJokeActivity.class);
-        intent.putExtra("javaLibJoke", joke);
-        startActivity(intent);
-    }
 
     @Override
     public void onResultReceived(String result) {

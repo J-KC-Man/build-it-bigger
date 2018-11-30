@@ -1,13 +1,8 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Context;
+
 import android.support.test.InstrumentationRegistry;
-import android.support.test.annotation.UiThreadTest;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v4.util.Pair;
-
-import junit.framework.TestCase;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +42,9 @@ public class EndpointsAsyncTaskTest implements IAsyncTaskCallback {
         signal.countDown();
 
         // assert the result - "This is a Joke!"
-        Assert.assertEquals("This is a joke!", result);
+        Assert.assertNotEquals("", result);
+        Assert.assertNotNull(result);
+       // Assert.assertEquals("This is a joke!", result);
 
     }
 }
